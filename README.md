@@ -1,3 +1,5 @@
+This contains the sequencing mapping file and the R code used to generate the microbial community data associated with our manuscript
+
 ## Effects of Soluble Electron Shuttles on Microbial Iron Reduction and Methanogenesis
 
 Bhim Sen Thapa, Theodore M. Flynn, Zena Jensvold, Kenneth M. Kemner, Margaret F. Sladeb, Edward J. O’Loughlin, and Christopher W. Marshall.
