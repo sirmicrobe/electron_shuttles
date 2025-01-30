@@ -331,7 +331,7 @@ rownames(samdf_read) <- samdf_read$X.SampleID
 #are the sample names the same?
 rownames(seqtab)[rownames(seqtab) %in% samdf_read$X.SampleID ]
 rownames(seqtab)[!(rownames(seqtab) %in% samdf_read$X.SampleID)] 
-samdf_read$X.SampleID[!(samdf_read$X.SampleID%in% rownames(seqtab))] # no, changed AQC.A.10 to AQC.A.07
+samdf_read$X.SampleID[!(samdf_read$X.SampleID%in% rownames(seqtab))] # no, corrected AQC.A.10 to AQC.A.07
 
 
 #Create phyloseq object
@@ -426,104 +426,14 @@ library("FSA") #v0.8.30 Ogle, D.H., P. Wheeler, and A. Dinno. 2020. FSA: Fisheri
 dunnTest(Shannon ~ as.factor(ElectronShuttle),
          data=d_rich,
          method="bh") #multiple comparison test 
-#                   Comparison         Z      P.unadj        P.adj
-1               AQC - AQDS -5.9075282 3.472788e-09 3.906887e-08
-2                AQC - AQS  1.7434164 8.126090e-02 1.108103e-01
-3               AQDS - AQS  7.2942170 3.004010e-13 1.351804e-11
-4                AQC - AQZ -0.4438640 6.571409e-01 6.877056e-01
-5               AQDS - AQZ  5.3216782 1.028143e-07 7.711075e-07
-6                AQS - AQZ -2.1139236 3.452179e-02 5.356830e-02
-7           AQC - Inoculum -4.0497548 5.127132e-05 1.538140e-04
-8          AQDS - Inoculum -1.0230162 3.063002e-01 3.445877e-01
-9           AQS - Inoculum -4.8580413 1.185527e-06 5.927633e-06
-10          AQZ - Inoculum -3.8031068 1.428927e-04 4.018858e-04
-11        AQC - no.shuttle -5.0787105 3.800053e-07 2.137530e-06
-12       AQDS - no.shuttle  2.2252150 2.606681e-02 4.344468e-02
-13        AQS - no.shuttle -6.7829730 1.177276e-11 1.765914e-10
-14        AQZ - no.shuttle -4.3240389 1.531982e-05 5.303016e-05
-15   Inoculum - no.shuttle  2.0939115 3.626786e-02 5.440179e-02
-16               AQC - NQJ -0.6418420 5.209758e-01 5.581883e-01
-17              AQDS - NQJ  5.1375071 2.784069e-07 1.789759e-06
-18               AQS - NQJ -2.3032628 2.126406e-02 3.680318e-02
-19               AQZ - NQJ -0.1916913 8.479840e-01 8.479840e-01
-20          Inoculum - NQJ  3.7072611 2.095129e-04 5.545929e-04
-21        no.shuttle - NQJ  4.0928505 4.261025e-05 1.369615e-04
-22               AQC - NQL -1.9715409 4.866204e-02 6.843100e-02
-23              AQDS - NQL  3.6817790 2.316121e-04 5.790303e-04
-24               AQS - NQL -3.5167914 4.367969e-04 1.034519e-03
-25               AQZ - NQL -1.5009155 1.333774e-01 1.765289e-01
-26          Inoculum - NQL  2.9910099 2.780565e-03 5.687520e-03
-27        no.shuttle - NQL  2.3042913 2.120630e-02 3.817134e-02
-28               NQJ - NQL -1.3167445 1.879243e-01 2.168357e-01
-29               AQC - NQS -3.4344473 5.937635e-04 1.335968e-03
-30              AQDS - NQS  2.0353963 4.181101e-02 6.069340e-02
-31               AQS - NQS -4.8548897 1.204538e-06 5.420419e-06
-32               AQZ - NQS -2.9514886 3.162462e-03 6.187427e-03
-33          Inoculum - NQS  2.1338152 3.285791e-02 5.280736e-02
-34        no.shuttle - NQS  0.3737611 7.085821e-01 7.246862e-01
-35               NQJ - NQS -2.7764991 5.494778e-03 1.030271e-02
-36               NQL - NQS -1.4750422 1.402012e-01 1.752515e-01
-37        AQC - Riboflavin -5.4313855 5.591818e-08 5.032636e-07
-38       AQDS - Riboflavin  0.6819839 4.952491e-01 5.435661e-01
-39        AQS - Riboflavin -6.8838149 5.827056e-12 1.311088e-10
-40        AQZ - Riboflavin -4.8291469 1.371192e-06 5.609422e-06
-41   Inoculum - Riboflavin  1.3885333 1.649747e-01 1.953648e-01
-42 no.shuttle - Riboflavin -1.5001314 1.335804e-01 1.717462e-01
-43        NQJ - Riboflavin -4.6374556 3.527244e-06 1.322716e-05
-44        NQL - Riboflavin -3.1387788 1.696535e-03 3.635432e-03
-45        NQS - Riboflavin -1.4568993 1.451442e-01 1.765267e-01
+
 
 rich_anova <- aov(Shannon ~ ElectronShuttle, data = d_rich) 
 summary(rich_anova)                 
                 #Df Sum Sq Mean Sq F value Pr(>F)    
 #ElectronShuttle   9 112.47  12.497   40.81 <2e-16 ***
 TukeyHSD(rich_anova)
-#                             diff         lwr         upr     p adj
-no.shuttle-Inoculum   -2.73366948 -3.78258570 -1.68475325 0.0000000
-AQC-Inoculum          -4.00792276 -5.09181241 -2.92403310 0.0000000
-AQDS-Inoculum         -2.44692977 -3.55070897 -1.34315057 0.0000000
-AQS-Inoculum          -4.32055059 -5.41641730 -3.22468389 0.0000000
-AQZ-Inoculum          -3.64809274 -4.74055083 -2.55563465 0.0000000
-NQJ-Inoculum          -3.60767661 -4.70013470 -2.51521852 0.0000000
-NQL-Inoculum          -3.18928799 -4.29306719 -2.08550879 0.0000000
-NQS-Inoculum          -2.80074029 -3.92017672 -1.68130387 0.0000000
-Riboflavin-Inoculum   -2.54949820 -3.64195629 -1.45704011 0.0000000
-AQC-no.shuttle        -1.27425328 -1.70608526 -0.84242130 0.0000000
-AQDS-no.shuttle        0.28673970 -0.19283364  0.76631304 0.6606335
-AQS-no.shuttle        -1.58688112 -2.04795150 -1.12581073 0.0000000
-AQZ-no.shuttle        -0.91442327 -1.36733246 -0.46151407 0.0000000
-NQJ-no.shuttle        -0.87400713 -1.32691633 -0.42109794 0.0000002
-NQL-no.shuttle        -0.45561852 -0.93519186  0.02395482 0.0781527
-NQS-no.shuttle        -0.06707082 -0.58165800  0.44751637 0.9999936
-Riboflavin-no.shuttle  0.18417128 -0.26873792  0.63708047 0.9525792
-AQDS-AQC               1.56099298  1.00910338  2.11288258 0.0000000
-AQS-AQC               -0.31262784 -0.84851723  0.22326155 0.6918623
-AQZ-AQC                0.35983001 -0.16905399  0.88871401 0.4765192
-NQJ-AQC                0.40024614 -0.12863785  0.92913014 0.3191485
-NQL-AQC                0.81863476  0.26674516  1.37052436 0.0001659
-NQS-AQC                1.20718246  0.62460928  1.78975565 0.0000000
-Riboflavin-AQC         1.45842456  0.92954056  1.98730855 0.0000000
-AQS-AQDS              -1.87362082 -2.44867662 -1.29856502 0.0000000
-AQZ-AQDS              -1.20116297 -1.76969619 -0.63262975 0.0000000
-NQJ-AQDS              -1.16074684 -1.72928005 -0.59221362 0.0000000
-NQL-AQDS              -0.74235822 -1.33235302 -0.15236342 0.0031416
-NQS-AQDS              -0.35381052 -0.97260229  0.26498125 0.7161525
-Riboflavin-AQDS       -0.10256843 -0.67110164  0.46596479 0.9998971
-AQZ-AQS                0.67245785  0.11944309  1.22547261 0.0051842
-NQJ-AQS                0.71287398  0.15985922  1.26588874 0.0021567
-NQL-AQS                1.13126260  0.55620680  1.70631840 0.0000001
-NQS-AQS                1.51981030  0.91524553  2.12437507 0.0000000
-Riboflavin-AQS         1.77105239  1.21803763  2.32406715 0.0000000
-NQJ-AQZ                0.04041613 -0.50581291  0.58664518 1.0000000
-NQL-AQZ                0.45880475 -0.10972847  1.02733797 0.2333064
-NQS-AQZ                0.84735245  0.24898851  1.44571639 0.0004179
-Riboflavin-AQZ         1.09859454  0.55236550  1.64482359 0.0000000
-NQL-NQJ                0.41838862 -0.15014460  0.98692183 0.3593644
-NQS-NQJ                0.80693632  0.20857238  1.40530026 0.0010178
-Riboflavin-NQJ         1.05817841  0.51194937  1.60440746 0.0000001
-NQS-NQL                0.38854770 -0.23024407  1.00733947 0.5941102
-Riboflavin-NQL         0.63978979  0.07125658  1.20832301 0.0142857
-Riboflavin-NQS         0.25124209 -0.34712185  0.84960603 0.9422825
+
 
 ########################### BETA DIVERSITY #########################
 # preparing data as appropriate for Bray-Curtis distances
@@ -588,10 +498,6 @@ adonis(bray_dist_matrix~ElectronShuttle*Batch, data=data.frame(sample_data(ps1_p
 #  Residuals             203    20.293  0.1000         0.31791              
 #Total                 216    63.831                 1.00000              
 
-#bray_dist_matrix_md <- as_tibble(bray_dist_matrix)
-#bray_dist_matrix_md$X.SampleID <- rownames(bray_dist_matrix)
-#meta_dist_matrix <- inner_join(data.frame(sample_data(ps1_paper_noconc_noh2)),bray_dist_matrix_md,by="X.SampleID")
-#subset(meta_dist_matrix, Batch=="Batch1" )
 
 adonis(bray_dist_b1_matrix ~ ElectronShuttle, data=data.frame(sample_data(ps.prop.batch1)),permutations=10000)
 #             Df SumsOfSqs MeanSqs F.Model      R2    Pr(>F)    
@@ -757,9 +663,61 @@ p_geo_only <- ggplot(data=tib_otu_geobacter_relab_color, aes(x=sample.rep.batch.
   ylim(0,1) + 
   scale_fill_manual(values=all_geobacter_colors) + 
   coord_flip() 
-p_geo_only + facet_wrap(~shuttle,scales="free") +theme(legend.position = "none")
+p_geo_only + facet_wrap(~shuttle+matched_string,scales="free") +theme(legend.position = "none",panel.grid.major = element_blank(),panel.grid.minor = element_blank())
+
+##### euryarchaeota
+halobac_relab <- subset_taxa(ps.prop, Phylum=="Halobacterota") 
+alleuryarch_relab <- subset_taxa(ps.prop, Phylum %in% c("Halobacterota", "Euryarchaeota","Crenarchaeota","Methylomirabilota"))
+
+plot_richness(euryarch_relab, x="ElectronShuttle", measures=c("Shannon")) + geom_boxplot() + geom_point() 
 
 
+plot_bar(alleuryarch_relab,x="sample.rep.batch.days", fill="Genus") + facet_wrap(~ElectronShuttle,scales="free_y") +scale_fill_manual(values= c("mediumpurple1","darkorange","cyan2", "darkgreen","chartreuse3", "mediumorchid3","royalblue","red","yellow1","salmon1","violetred", "#89C5DA","#d1972c" ,"#8A4E45", "#004461","#C84248", "#673770","#508578","skyblue4","yellowgreen"))+coord_flip()
+
+library("tidyverse")
+otu_eury_relab <- as.data.frame(otu_table(euryarch_relab))
+otu_eury_relab$samples <- rownames(otu_eury_relab)
+tib_otu_eury_relab <- otu_eury_relab %>% pivot_longer(cols=c(0:56), values_to="Frequency",names_to="Halobacterota")
+
+top20_eury_names <- names(sort(taxa_sums(euryarch_relab ), decreasing=TRUE))[1:20]
+eury_colors <- c("mediumpurple1","darkorange","cyan2", "darkgreen","chartreuse3", "mediumorchid3","royalblue","red","yellow1","salmon1","violetred", "#89C5DA","#d1972c" ,"#8A4E45", "#004461","#C84248", "#673770","#508578","skyblue4","yellowgreen")
+names(eury_colors) <- top20_eury_names
+
+all_eury_asv <- levels(as.factor(tib_otu_eury_relab$Halobacterota))
+df_eury_colors <- as.data.frame(eury_colors)
+df_eury_colors$Halobacterota <- rownames(df_eury_colors)
+df_all_eury_asv <- as.data.frame(all_eury_asv)
+colnames(df_all_eury_asv) <- "Halobacterota"
+df_eury_colors_all <- right_join(df_eury_colors,df_all_eury_asv,by="Halobacterota")
+df_eury_colors_all$eury_colors <- df_eury_colors_all$eury_colors %>% replace_na("grey")
+
+tib_otu_eury_relab_color <- right_join(tib_otu_eury_relab,df_eury_colors_all,by="Halobacterota")
+tib_otu_eury_relab_color$sample_name <- tib_otu_eury_relab_color$samples
+tib_otu_eury_relab_color <- left_join(tib_otu_eury_relab_color,data.frame(sample_data(ps1_paper_noconc_noh2))%>%select(X.SampleID,ElectronShuttle,sample.rep.batch.days),by=c("samples"="X.SampleID"))
+
+tib_otu_eury_relab_color$Halobacterota <- as.factor(tib_otu_eury_relab_color$Halobacterota)
+all_eury_colors<- tib_otu_eury_relab_color$eury_colors
+names(all_eury_colors) <- as.character(tib_otu_eury_relab_color$Halobacterota)
+
+
+tib_otu_eury_relab_color$shuttle<- (as.factor(tib_otu_eury_relab_color$ElectronShuttle))
+
+
+p_eury_only <- ggplot(data=tib_otu_eury_relab_color, aes(x=sample.rep.batch.days,y=Frequency,fill=Halobacterota)) + 
+  geom_bar(stat="identity") +
+  ylim(0,0.1) + 
+  scale_fill_manual(values=all_eury_colors) + 
+  coord_flip() 
+p_eury_only + facet_wrap(~shuttle,scales="free")# +theme(legend.position = "none")
+#ASV21 and 74
+as.character(refseq(ps1_paper_noconc_noh2)[21]) #methanosarcina
+
+#class - 3
+Euryarchaeota = "Methanobacteria"
+Halobacterota = "Methanocellia", "Methanosarcinia", "Methanomicrobia" 
+Crenarchaeota = "Methanomethylicia"   
+Methylomirabilota = "Methylomirabilia"    
+                                   
 ################# AQC only ################
 ps_AQC <- subset_samples(ps.prop, ElectronShuttle=="AQC")
 top100_aqc <- names(sort(taxa_sums(ps_AQC), decreasing=TRUE))[1:100]
